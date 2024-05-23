@@ -18,6 +18,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Load the plugin text domain for translation.
+ */
+function client_customization_load_textdomain() {
+    load_plugin_textdomain( 'client-customization', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+}
+add_action( 'plugins_loaded', 'client_customization_load_textdomain' );
+
+/**
  * Generate the custom message to be appended to post content.
  *
  * @return string The custom message.
@@ -25,7 +33,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 function client_customization_get_custom_message() {
     $blog_name = get_bloginfo( 'name' );
     $blog_url  = get_bloginfo( 'url' );
-    $message   = sprintf( '<p><b>This content is created by: %1$s (%2$s)</b></p>', $blog_name, $blog_url );
+
+    // Translators: %1$s is the blog name, %2$s is the blog URL.
+    $message_text = __( 'This content is created by: %1$s (%2$s)', 'client-customization' );
+    $message      = sprintf( '<p><strong>' . $message_text . '</strong></p>', $blog_name, $blog_url );
 
     return $message;
 }
