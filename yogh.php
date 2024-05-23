@@ -49,8 +49,11 @@ function client_customization_get_custom_message() {
  * @return string The modified post content with the custom message appended.
  */
 function client_customization_append_message( $content ) {
-    $custom_message = client_customization_get_custom_message();
-    $content       .= $custom_message;
+    // Check if the current content is for a post (not a page or other post type).
+    if ( is_singular( 'post' ) ) {
+        $custom_message = client_customization_get_custom_message();
+        $content       .= $custom_message;
+    }
 
     return $content;
 }
